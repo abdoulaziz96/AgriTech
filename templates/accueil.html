@@ -3,40 +3,911 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>AgriTech Bénin | L'avenir de l'agriculture</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriTech Bénin | Révolution Digitale de l'Agriculture</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1592982537447-7440770cbfc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+        :root {
+            --primary-green: #2E7D32;
+            --secondary-green: #4CAF50;
+            --light-green: #C8E6C9;
+            --accent-gold: #FFD700;
+            --dark-bg: #1A1A1A;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --white: #FFFFFF;
+            --section-bg: #F9FBF8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, .display-1, .display-2, .display-3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(26, 26, 26, 0.95) !important;
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white) !important;
+        }
+
+        .navbar-brand .logo-icon {
+            color: var(--secondary-green);
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-green) !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.9), rgba(76, 175, 80, 0.8)),
+                        url('https://images.unsplash.com/photo-1592982537447-7440770cbfc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
-            height: 100vh;
+            background-attachment: fixed;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            color: white;
+            position: relative;
+            color: var(--white);
+            padding-top: 80px;
         }
-        .btn-agri { background-color: #28a745; color: white; border-radius: 30px; padding: 12px 30px; font-weight: bold; }
-        .btn-agri:hover { background-color: #218838; color: white; }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+        }
+
+        /* Buttons */
+        .btn-agri {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-agri:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(46, 125, 50, 0.4);
+            color: var(--white);
+        }
+
+        .btn-agri-outline {
+            background: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-agri-outline:hover {
+            background: var(--white);
+            color: var(--primary-green);
+        }
+
+        /* Sections */
+        .section-title {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Cards */
+        .feature-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            height: 100%;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(46, 125, 50, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(46, 125, 50, 0.15);
+            border-color: var(--secondary-green);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--light-green), var(--secondary-green));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--white);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(46, 125, 50, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 5px solid var(--secondary-green);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .testimonial-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary-green);
+        }
+
+        /* Gallery */
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--white);
+            padding: 2rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Process Steps */
+        .process-step {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .process-step::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            right: -50%;
+            height: 3px;
+            background: var(--light-green);
+            z-index: 1;
+        }
+
+        .process-step:last-child::before {
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            color: var(--white);
+            padding: 5rem 0 2rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links h5 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-green);
+        }
+
+        .contact-info {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .contact-info i {
+            color: var(--secondary-green);
+            margin-right: 10px;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card, .stat-card, .testimonial-card {
+                margin-bottom: 2rem;
+            }
+            
+            .process-step::before {
+                display: none;
+            }
+            
+            .navbar-collapse {
+                background: var(--dark-bg);
+                padding: 1rem;
+                border-radius: 10px;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .btn-agri, .btn-agri-outline {
+                padding: 12px 30px;
+                font-size: 1rem;
+                display: block;
+                margin: 10px auto;
+                width: 90%;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary-green), var(--secondary-green));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--secondary-green), var(--primary-green));
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#"><i class="bi bi-leaf text-success me-2"></i>AgriTech Bénin</a>
-            <div class="ms-auto">
-                <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Connexion</a>
-                <a href="#" class="btn btn-success">S'inscrire</a>
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-tree-fill logo-icon"></i>
+                AgriTech Bénin
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Fonctionnalités</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#stats">Impact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#community">Communauté</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Témoignages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#process">Fonctionnement</a>
+                    </li>
+                </ul>
+                
+                <div class="ms-lg-3 mt-3 mt-lg-0">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-agri">
+                            <i class="bi bi-speedometer2 me-2"></i>Tableau de Bord
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-agri-outline me-2">Connexion</a>
+                        <a href="#" class="btn btn-agri">S'inscrire</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
 
-    <header class="hero text-center">
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
         <div class="container">
-            <h1 class="display-2 fw-bold mb-4">Modernisons l'Agriculture Béninoise</h1>
-            <p class="lead mb-5 fs-4">Suivez vos récoltes, gérez vos stocks et boostez votre productivité avec la première plateforme AgriTech du Bénin.</p>
-            <a href="{% url 'login' %}" class="btn btn-agri btn-lg shadow">Accéder au Tableau de Bord</a>
+            <div class="hero-content text-center animate-fade-in-up">
+                <h1 class="hero-title mb-4">
+                    Une solution complète pour votre coopérative
+                </h1>
+                <p class="hero-subtitle mb-5">
+                    AgriTech Bénin simplifie la gestion agricole grâce à des outils innovants adaptés à chaque acteur de la chaîne
+                </p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="#" class="btn btn-agri animate-fade-in-up delay-1">
+                        Commencer maintenant <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    <a href="#" class="btn btn-agri-outline animate-fade-in-up delay-2">
+                        <i class="bi bi-play-circle me-2"></i>Voir la démo
+                    </a>
+                </div>
+            </div>
         </div>
-    </header>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5" id="features" style="background: var(--section-bg);">
+        <div class="container py-5">
+            <div class="row g-5">
+                <!-- Producteurs -->
+                <div class="col-md-4">
+                    <div class="feature-card animate-fade-in-up">
+                        <div class="feature-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Pour les Producteurs</h3>
+                        <p class="text-muted mb-4">
+                            Déclarez vos récoltes en quelques clics, suivez vos livraisons et recevez vos paiements rapidement. Accédez à votre historique complet 24h/24.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Déclaration rapide</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Paiements automatiques</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Historique complet</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Magasiniers -->
+                <div class="col-md-4">
+                    <div class="feature-card animate-fade-in-up delay-1">
+                        <div class="feature-icon">
+                            <i class="bi bi-box-seam-fill"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Pour les Magasiniers</h3>
+                        <p class="text-muted mb-4">
+                            Gérez les stocks en temps réel, validez les réceptions et surveillez les niveaux d'alerte. Une interface simple pour une gestion efficace.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Stock en temps réel</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Alertes automatiques</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Validation rapide</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Administrateurs -->
+                <div class="col-md-4">
+                    <div class="feature-card animate-fade-in-up delay-2">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Pour les Administrateurs</h3>
+                        <p class="text-muted mb-4">
+                            Tableaux de bord complets, analyses statistiques et gestion globale de la coopérative. Prenez des décisions éclairées avec des données précises.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Analyses détaillées</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Décisions éclairées</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Gestion globale</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5" id="stats">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title mb-3">Notre impact en chiffres</h2>
+                <p class="section-subtitle">
+                    Depuis notre lancement, nous transformons l'agriculture béninoise
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Producteurs actifs</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Départements couverts</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Tonnes gérées</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">99%</div>
+                        <div class="stat-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Gallery -->
+    <section class="py-5" id="community" style="background: var(--section-bg);">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title mb-3">Notre communauté en action</h2>
+                <p class="section-subtitle">
+                    Découvrez les visages derrière notre succès : des producteurs passionnés aux magasiniers dévoués
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1589923186741-b7d59d6b2c4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Récolte collective">
+                        <div class="gallery-overlay">
+                            <h5 class="text-white mb-2">Récolte collective</h5>
+                            <p class="text-white mb-0">Producteurs du Borgou récoltant le maïs</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1582745141122-e28c4e4a9b6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gestion des stocks">
+                        <div class="gallery-overlay">
+                            <h5 class="text-white mb-2">Gestion des stocks</h5>
+                            <p class="text-white mb-0">Magasiniers organisant les récoltes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Formation digitale">
+                        <div class="gallery-overlay">
+                            <h5 class="text-white mb-2">Formation digitale</h5>
+                            <p class="text-white mb-0">Session de formation sur l'application mobile</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5" id="testimonials">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title mb-3">Ils nous font confiance</h2>
+                <p class="section-subtitle">
+                    Découvrez les témoignages de nos utilisateurs satisfaits
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="testimonial-img me-3" alt="Koffi Adékambi">
+                            <div>
+                                <h5 class="mb-1">Koffi Adékambi</h5>
+                                <p class="text-muted mb-0">Producteur de soja, Parakou</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">
+                            "Grâce à AgriTech, je peux déclarer mes récoltes depuis mon téléphone. Les paiements sont rapides et transparents."
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="testimonial-img me-3" alt="Fatou N'diaye">
+                            <div>
+                                <h5 class="mb-1">Fatou N'diaye</h5>
+                                <p class="text-muted mb-0">Magasinière, Cotonou</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">
+                            "En tant que magasinière, je peux maintenant gérer 3 entrepôts simultanément. Les alertes automatiques me sauvent la vie !"
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="testimonial-img me-3" alt="Jean Ahouansou">
+                            <div>
+                                <h5 class="mb-1">Jean Ahouansou</h5>
+                                <p class="text-muted mb-0">Administrateur, Abomey-Calavi</p>
+                            </div>
+                        </div>
+                        <p class="mb-0">
+                            "Les tableaux de bord me donnent une vision claire de toute la coopérative. Une révolution pour notre gestion !"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-5" id="process" style="background: var(--section-bg);">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title mb-3">Comment ça marche ?</h2>
+                <p class="section-subtitle">
+                    Simple, rapide et efficace : 4 étapes pour transformer votre gestion agricole
+                </p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h4 class="h5 mb-3">Inscription</h4>
+                        <p class="text-muted">Créez votre compte en 2 minutes</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h4 class="h5 mb-3">Déclaration</h4>
+                        <p class="text-muted">Déclarez vos récoltes via l'application</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h4 class="h5 mb-3">Validation</h4>
+                        <p class="text-muted">Les magasiniers valident la réception</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h4 class="h5 mb-3">Paiement</h4>
+                        <p class="text-muted">Recevez votre paiement automatiquement</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="section-title mb-3">Prêt à transformer votre gestion agricole ?</h2>
+                <p class="section-subtitle">
+                    Rejoignez la première plateforme de gestion coopérative digitale au Bénin. Augmentez votre productivité et vos revenus dès aujourd'hui.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+                    <a href="#" class="btn btn-agri btn-lg">
+                        Commencer maintenant <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    <a href="#" class="btn btn-agri-outline btn-lg">
+                        <i class="bi bi-play-circle me-2"></i>Voir la démo
+                    </a>
+                </div>
+                <p class="text-muted">
+                    Déjà membre ? <a href="{% url 'login' %}" class="text-success fw-bold">Connectez-vous ici</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="footer-logo">
+                        <i class="bi bi-tree-fill me-2"></i>AgriTech Bénin
+                    </div>
+                    <p class="text-muted mb-4">
+                        La plateforme de gestion coopérative qui révolutionne l'agriculture béninoise depuis 2024.
+                    </p>
+                </div>
+                
+                <div class="col-lg-2 col-md-4">
+                    <div class="footer-links">
+                        <h5>Navigation</h5>
+                        <a href="#features">Fonctionnalités</a>
+                        <a href="#testimonials">Témoignages</a>
+                        <a href="#community">Nous rejoindre</a>
+                        <a href="{% url 'login' %}">Connexion</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4">
+                    <div class="footer-links">
+                        <h5>Ressources</h5>
+                        <a href="#">Guide d'utilisation</a>
+                        <a href="#">FAQ</a>
+                        <a href="#">Support technique</a>
+                        <a href="#">Politique de confidentialité</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-4">
+                    <div class="contact-info">
+                        <h5 class="text-white mb-4">Contact</h5>
+                        <p class="mb-3">
+                            <i class="bi bi-geo-alt"></i> Rue 254, Cotonou, Bénin
+                        </p>
+                        <p class="mb-3">
+                            <i class="bi bi-telephone"></i> +229 60 12 34 56
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-envelope"></i> contact@agritech-benin.bj
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p class="mb-0">
+                    © 2026 AgriTech-Bénin. Tous droits réservés. Développé avec passion pour l'excellence agricole.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in-up');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all cards and sections
+            document.querySelectorAll('.feature-card, .stat-card, .testimonial-card, .gallery-item, .process-step').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Navbar background on scroll
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+                    navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                } else {
+                    navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+                    navbar.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
