@@ -2,16 +2,31 @@ import os
 from pathlib import Path
 import dj_database_url
 
-
-
-# Base directory
+# =========================
+# BASE DIRECTORY
+# =========================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-votre-cle-ici' # Changez ceci en production
-DEBUG = True
-ALLOWED_HOSTS = []
 
-# Applications : On garde tes 4 apps + les apps Django
+# =========================
+# SECURITY
+# =========================
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-temp-key-for-dev'
+)
+
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS',
+    '*'
+).split(',')
+
+
+# =========================
+# APPLICATIONS
+# =========================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,15 +35,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #   
+    # Apps du projet
     'gestion_membres',
     'gestion_recoltes',
     'gestion_stock',
     'tableau_de_bord',
 ]
 
+
+# =========================
+# MIDDLEWARE
+# =========================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Pour Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -37,12 +57,22 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# =========================
+# URLS & WSGI
+# =========================
 ROOT_URLCONF = 'core_settings.urls'
 
+WSGI_APPLICATION = 'core_settings.wsgi.application'
+
+
+# =========================
+# TEMPLATES
+# =========================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -55,12 +85,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core_settings.wsgi.application'
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-
-DEBUG = os.environ.get('DEBUG') == 'True'
-
+# =========================
+# DATABASE (RENDER)
+# =========================
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
@@ -69,45 +97,40 @@ DATABASES = {
     )
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-# Internationalisation pour le Bénin
+# =========================
+# AUTHENTIFICATION
+# =========================
+AUTH_USER_MODEL = 'gestion_membres.User'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
+
+
+# =========================
+# INTERNATIONALISATION
+# =========================
 LANGUAGE_CODE = 'fr-fr'
 TIME_ZONE = 'Africa/Porto-Novo'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = '/static/'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-# Authentification personnalisée
-AUTH_USER_MODEL = 'gestion_membres.User'
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'dashboard'  # À adapter selon ta logique
-LOGOUT_REDIRECT_URL = 'login'
-
-# Fichiers statiques personnalisés
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-DEBUG = False
-ALLOWED_HOSTS = ['*']
-
+# =========================
+# STATIC FILES
+# =========================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # 👈 AJOUT
-    ...
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
 ]
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# =========================
+# DEFAULT PK
+# =========================
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
