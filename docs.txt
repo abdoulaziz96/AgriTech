@@ -1,0 +1,1 @@
+postgresql://agritech_user:zeELq4iM6zgU5hA9RJAXmrF7J7WUr7JE@dpg-d5ofsvkhg0os73fk5900-a/agritech_71os

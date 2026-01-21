@@ -57,9 +57,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core_settings.wsgi.application'
 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+DEBUG = os.environ.get('DEBUG') == 'True'
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
     )
 }
 
