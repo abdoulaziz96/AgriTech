@@ -1,0 +1,49 @@
+<!-- templates/admin/base_site.html -->
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+{% block usertools %}
+{% if has_permission %}
+<div id="user-tools">
+    {% block welcome-msg %}
+        {{ _('Bienvenue,') }}
+        <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+    {% endblock %}
+    {% block userlinks %}
+        <!-- BOUTTON DASHBOARD AJOUTÉ ICI -->
+        <a href="{% url 'admin_dashboard' %}" class="dashboard-btn" 
+           style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                  color: white; padding: 8px 16px; border-radius: 20px; 
+                  text-decoration: none; margin-right: 15px; font-weight: 600;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;
+                  display: inline-flex; align-items: center; gap: 8px;">
+            📊 <span style="font-size: 14px;">DASHBOARD</span>
+        </a>
+        
+        <!-- Liens standards restent -->
+        {% if site_url %}
+            <a href="{{ site_url }}">{{ _('Voir le site') }}</a> /
+        {% endif %}
+        {% if user.has_usable_password %}
+            <a href="{% url 'admin:password_change' %}">{{ _('Modifier le mot de passe') }}</a> /
+        {% endif %}
+        <a href="{% url 'admin:logout' %}">{{ _('Déconnexion') }}</a>
+    {% endblock %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+    .dashboard-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+    }
+</style>
+{% endblock %}

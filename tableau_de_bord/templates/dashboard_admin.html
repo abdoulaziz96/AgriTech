@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Tableau de bord Administrateur</h1>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total des récoltes</h5>
+                    <p class="card-text">{{ total_recoltes }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre de producteurs</h5>
+                    <p class="card-text">{{ producteurs.count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Produits en stock</h5>
+                    <p class="card-text">{{ stocks.count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h3>Dernières récoltes</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Culture</th>
+                    <th>Quantité</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recolte in recoltes %}
+                <tr>
+                    <td>{{ recolte.culture }}</td>
+                    <td>{{ recolte.quantite }}</td>
+                    <td>{{ recolte.date_recolte }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

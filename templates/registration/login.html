@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {# Ou une base plus simple si tu as un layout spécifique pour auth #}
+{% load crispy_forms_tags %} {# Si tu utilises django-crispy-forms pour styliser tes formulaires #}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-lg p-4 mt-5">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4 fw-bold text-success">Connexion AgriTech</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" name="username" class="form-control" id="id_username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Mot de passe</label>
+                            <input type="password" name="password" class="form-control" id="id_password" required>
+                        </div>
+                        {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                Votre nom d'utilisateur et/ou mot de passe est incorrect. Veuillez réessayer.
+                            </div>
+                        {% endif %}
+                        <input type="hidden" name="next" value="{{ next }}">
+                        <button type="submit" class="btn btn-success w-100 fw-bold mt-3">Se Connecter</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small>Pas encore de compte ? <a href="{% url 'register' %}" class="text-success fw-bold">S'inscrire</a></small>
+                    </div>
+                    <div class="text-center mt-2">
+                        <small><a href="{% url 'password_reset' %}" class="text-muted">Mot de passe oublié ?</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

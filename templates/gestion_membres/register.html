@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0 p-4">
+                <h2 class="text-center text-success fw-bold mb-4">Devenir Partenaire AgriTech</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">{{ form.first_name.label_tag }} {{ form.first_name }}</div>
+                        <div class="col-md-6 mb-3">{{ form.last_name.label_tag }} {{ form.last_name }}</div>
+                    </div>
+                    <div class="mb-3">{{ form.username.label_tag }} {{ form.username }}</div>
+                    <div class="mb-3">{{ form.email.label_tag }} {{ form.email }}</div>
+                    <div class="mb-3">{{ form.password.label_tag }} {{ form.password }}</div>
+                    <div class="mb-3">{{ form.password_confirm.label_tag }} {{ form.password_confirm }}</div>
+                    
+                    <button type="submit" class="btn btn-success w-100 fw-bold py-2 mt-3">Créer mon compte producteur</button>
+                </form>
+                <p class="text-center mt-3">Déjà inscrit ? <a href="{% url 'login' %}">Connectez-vous ici</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

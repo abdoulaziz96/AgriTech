@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="fw-bold">Tableau de Bord Coopérative</h2>
+            <p class="text-muted">Suivi automatique des activités en temps réel</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-uppercase small">Total Producteurs</h6>
+                    <h1 class="display-5 fw-bold">{{ total_prod }}</h1>
+                    <i class="bi bi-people position-absolute top-50 end-0 translate-middle opacity-25 fs-1"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-uppercase small">Parcelles Enregistrées</h6>
+                    <h1 class="display-5 fw-bold">{{ total_parc }}</h1>
+                    <i class="bi bi-map position-absolute top-50 end-0 translate-middle opacity-25 fs-1"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-dark shadow-sm border-0">
+                <div class="card-body">
+                    <h6 class="text-uppercase small">Superficie Totale (Ha)</h6>
+                    <h1 class="display-5 fw-bold">{{ sup_totale|floatformat:2 }}</h1>
+                    <i class="bi bi-textarea-resize position-absolute top-50 end-0 translate-middle opacity-25 fs-1"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold text-success">Dernières Parcelles Ajoutées</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Producteur</th>
+                            <th>Arrondissement</th>
+                            <th>Superficie</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for parcelle in dernieres_parcelles %}
+                        <tr>
+                            <td>{{ parcelle.producteur.get_full_name|default:parcelle.producteur.username }}</td>
+                            <td>{{ parcelle.arrondissement.nom }}</td>
+                            <td><span class="badge bg-info text-dark">{{ parcelle.superficie }} Ha</span></td>
+                            <td><a href="#" class="btn btn-sm btn-outline-secondary">Voir</a></td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="text-center py-4">Aucune donnée enregistrée</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-4 shadow-sm border-0">
+    <div class="card-header bg-dark text-white">État des Stocks Coopérative</div>
+    <div class="card-body">
+        <div class="row">
+            {% for s in stocks %}
+            <div class="col-md-3 text-center">
+                <h6 class="text-muted">{{ s.get_type_produit_display }}</h6>
+                <h4 class="fw-bold">{{ s.quantite_totale }} kg</h4>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

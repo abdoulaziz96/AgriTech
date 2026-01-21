@@ -1,0 +1,519 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    
+    .dashboard-container {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .dashboard-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2.5rem;
+        animation: fadeInDown 0.6s ease-out;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dashboard-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #1a202c;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    .admin-badge {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-left: 1rem;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        50% {
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
+        }
+    }
+
+    /* Cards statistiques */
+    .stats-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.8rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .stats-card:nth-child(1) { animation-delay: 0.1s; }
+    .stats-card:nth-child(2) { animation-delay: 0.2s; }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .stats-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--card-gradient-start), var(--card-gradient-end));
+    }
+
+    .stats-card.primary {
+        --card-gradient-start: #3b82f6;
+        --card-gradient-end: #2563eb;
+    }
+
+    .stats-card.success {
+        --card-gradient-start: #10b981;
+        --card-gradient-end: #059669;
+    }
+
+    .stats-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .stats-card.primary .stats-icon {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.15) 100%);
+        color: #2563eb;
+    }
+
+    .stats-card.success .stats-icon {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.15) 100%);
+        color: #059669;
+    }
+
+    .stats-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .stats-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #1a202c;
+        line-height: 1;
+    }
+
+    /* Section cards */
+    .section-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out 0.3s backwards;
+    }
+
+    .section-header {
+        padding: 1.5rem 1.8rem;
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .section-header.success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        letter-spacing: -0.3px;
+    }
+
+    /* Table moderne */
+    .modern-table {
+        margin: 0;
+    }
+
+    .modern-table thead th {
+        background: #f9fafb;
+        border-bottom: 2px solid #e5e7eb;
+        color: #374151;
+        font-weight: 700;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 1rem 1.5rem;
+    }
+
+    .modern-table tbody tr {
+        border-bottom: 1px solid #f3f4f6;
+        transition: all 0.2s ease;
+    }
+
+    .modern-table tbody tr:hover {
+        background: #f9fafb;
+        transform: scale(1.01);
+    }
+
+    .modern-table tbody td {
+        padding: 1.2rem 1.5rem;
+        color: #4b5563;
+        font-weight: 500;
+        vertical-align: middle;
+    }
+
+    .product-name {
+        font-weight: 600;
+        color: #1a202c;
+        font-size: 1rem;
+    }
+
+    .quantity-value {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: #059669;
+    }
+
+    /* Badges modernes */
+    .status-badge {
+        padding: 0.4rem 0.9rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .status-badge.warning {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: #78350f;
+        box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+
+    .status-badge.success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+
+    .status-badge i {
+        font-size: 0.9rem;
+    }
+
+    /* Liste producteurs */
+    .producer-list {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    .producer-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .producer-list::-webkit-scrollbar-track {
+        background: #f3f4f6;
+    }
+
+    .producer-list::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 3px;
+    }
+
+    .producer-item {
+        padding: 1.2rem 1.5rem;
+        border-bottom: 1px solid #f3f4f6;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .producer-item:hover {
+        background: linear-gradient(90deg, #f9fafb 0%, #ffffff 100%);
+        padding-left: 1.8rem;
+    }
+
+    .producer-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .producer-username {
+        font-weight: 700;
+        color: #1a202c;
+        font-size: 1rem;
+    }
+
+    .producer-name {
+        font-size: 0.875rem;
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    .btn-details {
+        background: white;
+        border: 2px solid #e5e7eb;
+        color: #3b82f6;
+        padding: 0.5rem 1.2rem;
+        border-radius: 10px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-details:hover {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Empty states */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: #9ca3af;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .dashboard-title {
+            font-size: 1.6rem;
+        }
+
+        .admin-badge {
+            margin-left: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.7rem;
+        }
+
+        .stats-value {
+            font-size: 2rem;
+        }
+
+        .modern-table {
+            font-size: 0.875rem;
+        }
+
+        .producer-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .btn-details {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="container-fluid dashboard-container">
+    <div class="dashboard-header">
+        <h2 class="dashboard-title">
+            Tableau de Bord
+            <span class="admin-badge">
+                <i class="bi bi-shield-check"></i> ADMIN
+            </span>
+        </h2>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="stats-card primary">
+                <div class="stats-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="stats-label">Producteurs Inscrits</div>
+                <div class="stats-value">{{ producteurs.count }}</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="stats-card success">
+                <div class="stats-icon">
+                    <i class="bi bi-box-seam-fill"></i>
+                </div>
+                <div class="stats-label">Récoltes Totales</div>
+                <div class="stats-value">{{ total_recoltes }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="section-card">
+                <div class="section-header">
+                    <h5 class="section-title">
+                        <i class="bi bi-graph-up-arrow me-2"></i>
+                        État Global des Stocks
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if stocks %}
+                    <table class="table modern-table">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Quantité Totale</th>
+                                <th>Alerte</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in stocks %}
+                            <tr>
+                                <td class="product-name">{{ s.produit }}</td>
+                                <td class="quantity-value">{{ s.quantite_totale }} kg</td>
+                                <td>
+                                    {% if s.quantite_totale < 100 %}
+                                        <span class="status-badge warning">
+                                            <i class="bi bi-exclamation-triangle-fill"></i>
+                                            Stock Bas
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge success">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            OK
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-inbox"></i>
+                        <p>Aucun stock disponible</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="section-card">
+                <div class="section-header success">
+                    <h5 class="section-title">
+                        <i class="bi bi-person-check-fill me-2"></i>
+                        Producteurs Actifs
+                    </h5>
+                </div>
+                <div class="producer-list">
+                    {% if producteurs %}
+                        {% for p in producteurs %}
+                        <div class="producer-item">
+                            <div class="producer-info">
+                                <span class="producer-username">{{ p.username }}</span>
+                                <span class="producer-name">{{ p.first_name }}</span>
+                            </div>
+                            <a href="#" class="btn-details">
+                                Détails
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-person-x"></i>
+                        <p>Aucun producteur actif</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card mt-4">
+        <div class="section-header">
+            <h2 class="section-title">Liste des Producteurs</h2>
+        </div>
+        <div class="card-body p-0">
+            <table class="table modern-table">
+                <thead>
+                    <tr>
+                        <th>Nom d'utilisateur</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Commune</th>
+                        <th>Arrondissement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producteur in producteurs %}
+                    <tr>
+                        <td>{{ producteur.username }}</td>
+                        <td>{{ producteur.email }}</td>
+                        <td>{{ producteur.telephone }}</td>
+                        <td>{{ producteur.commune }}</td>
+                        <td>{{ producteur.arrondissement }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" style="text-align: center;">Aucun producteur trouvé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
