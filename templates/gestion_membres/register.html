@@ -1,27 +1,185 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow border-0 p-4">
-                <h2 class="text-center text-success fw-bold mb-4">Devenir Partenaire AgriTech</h2>
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-6 mb-3">{{ form.first_name.label_tag }} {{ form.first_name }}</div>
-                        <div class="col-md-6 mb-3">{{ form.last_name.label_tag }} {{ form.last_name }}</div>
+<style>
+    /* Configuration des couleurs AgriTech */
+    :root {
+        --agri-green: #28a745;
+        --agri-dark: #1a4a25;
+        --soft-white: #f8fbf9;
+    }
+
+    body { background-color: var(--soft-white); }
+
+    .register-container {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .register-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        border: none;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* Section Visuelle (Gauche) */
+    .register-visual {
+        background: linear-gradient(rgba(40, 167, 69, 0.8), rgba(26, 74, 37, 0.9)), 
+                    url('https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=800&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 300px;
+    }
+
+    .agri-logo-top {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+    }
+
+    /* Section Formulaire (Droite) */
+    .register-form-box {
+        padding: 40px;
+        flex: 1;
+    }
+
+    /* Stylisation des champs Django sans casser la logique */
+    .form-box input {
+        width: 100%;
+        padding: 12px 15px;
+        margin-top: 5px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        background-color: #fdfdfd;
+    }
+
+    .form-box input:focus {
+        border-color: var(--agri-green);
+        box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        outline: none;
+        background-color: #fff;
+    }
+
+    .form-label-custom {
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, var(--agri-green), var(--agri-dark));
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        transition: 0.3s;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        color: white;
+    }
+
+    /* Adaptabilité Mobile / Desktop */
+    @media (max-width: 768px) {
+        .register-visual { display: none; } /* On cache l'image sur mobile pour gagner de la place */
+        .register-form-box { padding: 30px 20px; }
+    }
+</style>
+
+<div class="container register-container py-5">
+    <div class="row justify-content-center w-100">
+        <div class="col-lg-10 p-0 shadow-lg register-card">
+            
+            <div class="col-md-5 register-visual text-center text-md-start">
+                <div class="agri-logo-top">
+                    <i class="bi bi-tree-fill"></i> </div>
+                <h2 class="fw-bold mb-3">Rejoignez la Force Agricole du Bénin</h2>
+                <p class="opacity-75">Accédez à des outils de pointe pour transformer vos récoltes en succès économique. Plus de 500 producteurs nous font déjà confiance.</p>
+                <div class="mt-4 d-none d-md-block">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-check2-circle me-2"></i> <span>Gestion simplifiée</span>
                     </div>
-                    <div class="mb-3">{{ form.username.label_tag }} {{ form.username }}</div>
-                    <div class="mb-3">{{ form.email.label_tag }} {{ form.email }}</div>
-                    <div class="mb-3">{{ form.password.label_tag }} {{ form.password }}</div>
-                    <div class="mb-3">{{ form.password_confirm.label_tag }} {{ form.password_confirm }}</div>
-                    
-                    <button type="submit" class="btn btn-success w-100 fw-bold py-2 mt-3">Créer mon compte producteur</button>
-                </form>
-                <p class="text-center mt-3">Déjà inscrit ? <a href="{% url 'login' %}">Connectez-vous ici</a></p>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check2-circle me-2"></i> <span>Paiements transparents</span>
+                    </div>
+                </div>
             </div>
+
+            <div class="col-md-7 register-form-box">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-dark">Créer un Compte</h3>
+                    <p class="text-muted small">Remplissez vos informations pour commencer</p>
+                </div>
+
+                <form method="POST" class="form-box">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label-custom">{{ form.first_name.label }}</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label-custom">{{ form.last_name.label }}</label>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">{{ form.username.label }}</label>
+                        {{ form.username }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">{{ form.email.label }}</label>
+                        {{ form.email }}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label-custom">{{ form.password.label }}</label>
+                            {{ form.password }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label-custom">{{ form.password_confirm.label }}</label>
+                            {{ form.password_confirm }}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-register w-100 shadow">
+                        DEVENIR PARTENAIRE MAINTENANT <i class="bi bi-arrow-right-short ms-2"></i>
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="small text-muted">Déjà inscrit ? <a href="{% url 'login' %}" class="text-success fw-bold text-decoration-none">Connectez-vous ici</a></p>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
+
+
 {% endblock %}
