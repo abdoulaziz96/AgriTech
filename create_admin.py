@@ -26,7 +26,7 @@ from django.contrib.auth import get_user_model
 
 # 2. Création du compte
 User = get_user_model()
-username = 'admin_agri'
+username = 'admin1'
 email = 'admin1'
 password = '1234567890' # Change-le après ta première connexion !
 
